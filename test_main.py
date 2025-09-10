@@ -65,3 +65,25 @@ def test_add_one_string(string_calculator, str, expected):
     total = string_calculator.Add(str)
     assert isinstance(total, int)
     assert total == expected
+
+
+@pytest.mark.parametrize("str,expected", [
+    ("1,1", 2),
+    ("2,4", 6),
+    ("2,9", 11),
+    ("50,5", 55),
+    ("100,2", 102),
+    ("100000000,25", 100000025),
+    ("-1,1", 0),
+    ("-1,10", 9),
+    ("-5,10", 5),
+    ("-5,-7", -12),
+    ("-5,-20", -25),
+])
+def test_add_one_string(string_calculator, str, expected):
+    """
+        Creates a fresh instance of the String Calculator before each test.
+    """
+    total = string_calculator.Add(str)
+    assert isinstance(total, int)
+    assert total == expected

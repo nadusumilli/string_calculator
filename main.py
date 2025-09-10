@@ -31,3 +31,7 @@ class StringCalculator:
                 raise ValueError(
                     "The value of the operands have to be numbers.")
             return result
+
+        numbers = operands.split(",")
+
+        return int(numbers[0]) + int(numbers[1])
