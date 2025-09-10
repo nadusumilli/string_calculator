@@ -8,5 +8,10 @@ def string_calculator():
     return StringCalculator()
 
 
-def test_add_strings(string_calculator):
-    assert string_calculator.Add
+@pytest.mark.parametrize("str,expected", [
+    (None, 0),
+    ("", 0),
+])
+def test_add_empty_strings(string_calculator, str, expected):
+    assert string_calculator.Add(
+        str) == expected, f'Adding {str} should give {expected} as a result.'
