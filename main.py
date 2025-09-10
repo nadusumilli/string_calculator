@@ -24,4 +24,10 @@ class StringCalculator:
 
         # If it is empty string or none return 0.
         if "," not in operands:
-            return int(operands)
+            result = 0
+            try:
+                result = int(operands)
+            except ValueError:
+                raise ValueError(
+                    "The value of the operands have to be numbers.")
+            return result
