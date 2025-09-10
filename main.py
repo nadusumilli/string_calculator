@@ -5,7 +5,21 @@ class StringCalculator:
     """
 
     def __init__(self):
-        pass
+        self.delimeter = "\n"
+
+    def _to_number(self, operands):
+        result = []
+        try:
+            if isinstance(operands, list):
+                result.extend([float(x) if "." in x else int(x)
+                              for x in operands])
+            else:
+                result.append(float(operands)
+                              if "." in operands else int(operands))
+        except ValueError:
+            raise ValueError(
+                "The value of the operands have to be numbers.")
+        return result
 
     def Add(self, operands):
         """
@@ -14,7 +28,6 @@ class StringCalculator:
         """
         # If its not a string raise value error.
         if not isinstance(operands, str):
-            print("\n\n\n\n", operands)
             raise ValueError(
                 "The operands have to be numbers separate by comma.")
 
@@ -24,14 +37,9 @@ class StringCalculator:
 
         # If it is empty string or none return 0.
         if "," not in operands:
-            result = 0
-            try:
-                result = int(operands)
-            except ValueError:
-                raise ValueError(
-                    "The value of the operands have to be numbers.")
-            return result
+            result = self._to_number(operands)
+            return result[0]
 
-        numbers = operands.split(",")
+        numbers = self._to_number(operands.split(self.delimeter))
 
-        return int(numbers[0]) + int(numbers[1])
+        return sum(numbers)
