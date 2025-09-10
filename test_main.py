@@ -150,3 +150,18 @@ def test_add_newline_string(string_calculator, str, expected):
     assert isinstance(
         total, (int, float)), f'Return value of the Add function should be integer or float'
     assert total == expected, f'Total value for {str} should be {expected}'
+
+
+@pytest.mark.parametrize("str,expected", [
+    ("//[*]\n1*1", 2),
+    ("//[,]\n2,4", 6),
+    ("//[|]\n2|9", 11),
+])
+def test_add_different_delimeter_string(string_calculator, str, expected):
+    """
+        Creates a fresh instance of the String Calculator before each test.
+    """
+    total = string_calculator.Add(str)
+    assert isinstance(
+        total, (int, float)), f'Return value of the Add function should be integer or float'
+    assert total == expected, f'Total value for {str} should be {expected}'
