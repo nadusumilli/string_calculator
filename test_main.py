@@ -154,7 +154,7 @@ def test_add_negative_string(string_calculator, str, expected):
     """
         Creates a fresh instance of the String Calculator before each test.
     """
-    with pytest.raises(NegativeNumberException, match=f"negatives not allowed {expected}"):
+    with pytest.raises(NegativeNumberException, match=f"negatives not allowed: {expected}"):
         string_calculator.Add(str)
 
 
@@ -167,5 +167,21 @@ def test_add_multiple_negative_string(string_calculator, str, expected):
     """
         Creates a fresh instance of the String Calculator before each test.
     """
-    with pytest.raises(NegativeNumberException, match=f"negatives not allowed {expected}"):
+    with pytest.raises(NegativeNumberException, match=f"negatives not allowed: {expected}"):
         string_calculator.Add(str)
+
+
+def test_called_count(string_calculator):
+    count = 0
+    string_calculator.Add("2,4")
+    count += 1
+    assert string_calculator.call_count == count
+    string_calculator.Add("2,4")
+    count += 1
+    assert string_calculator.call_count == count
+    string_calculator.Add("2,4")
+    count += 1
+    assert string_calculator.call_count == count
+    string_calculator.Add("2,4")
+    count += 1
+    assert string_calculator.call_count == count
