@@ -25,9 +25,9 @@ class StringCalculator:
                 # This regex finds all delimiters enclosed in square brackets,
                 # including multi-character delimiters.
                 delimeters = re.findall(r"\[(.*?)\]", header)
-                print("delimeter: ", delimeters)
+
+                # Adding the default delimeters.
                 delimeters.extend(self.delimeter.split("|"))
-                print("delimeter: ", delimeters)
 
                 # Ensure that the delimeters for splitting are added with a regex.
                 # The regex is in the form of `<delimeter>|<delimeter>`.
