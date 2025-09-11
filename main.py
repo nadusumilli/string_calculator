@@ -9,9 +9,14 @@ class StringCalculator:
 
     def __init__(self):
         self.delimeter = ",|\n"
+        self.call_count = 0
+
+    def GetCalledCount(self):
+        return self.call_count
 
     def _to_number(self, operands):
         result = []
+        self.call_count += 1
         try:
             if operands.startswith("//"):
                 # Get the header with delimeter and numbers separately.
@@ -31,7 +36,7 @@ class StringCalculator:
                 negativeNumbers = [x for x in operands if int(x) < 0]
                 if len(negativeNumbers) > 0:
                     raise NegativeNumberException(
-                        f"negatives not allowed {",".join(negativeNumbers)}")
+                        f"negatives not allowed: {",".join(negativeNumbers)}")
             else:
                 # If there is no delimeter in the string, pull defaults and apply.
                 self.delimeter = "|".join(map(re.escape, self.delimeter))

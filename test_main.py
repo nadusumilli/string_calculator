@@ -175,13 +175,13 @@ def test_called_count(string_calculator):
     count = 0
     string_calculator.Add("2,4")
     count += 1
-    assert string_calculator.call_count == count
+    assert string_calculator.GetCalledCount() == count
     string_calculator.Add("2,4")
     count += 1
-    assert string_calculator.call_count == count
+    assert string_calculator.GetCalledCount() == count
     string_calculator.Add("2,4")
     count += 1
-    assert string_calculator.call_count == count
+    assert string_calculator.GetCalledCount() == count
     string_calculator.Add("2,4")
     count += 1
-    assert string_calculator.call_count == count
+    assert string_calculator.GetCalledCount() == count
