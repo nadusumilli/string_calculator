@@ -58,7 +58,7 @@ def test_add_empty_strings(string_calculator, str, expected):
     ("100", 100),
     ("234", 234),
 ])
-def test_add_one_string(string_calculator, str, expected):
+def test_add_one_number_string(string_calculator, str, expected):
     """
         Test case to see if the single integer is returned.
     """
@@ -81,7 +81,7 @@ def test_add_one_string(string_calculator, str, expected):
     ("5,7", 12),
     ("5,20", 25),
 ])
-def test_add_two_string(string_calculator, str, expected):
+def test_add_two_number_string(string_calculator, str, expected):
     """
         Test case for two values separated by comma.
     """
@@ -128,6 +128,24 @@ def test_add_float_string(string_calculator, str, expected):
 
 
 @pytest.mark.parametrize("str,expected", [
+    ("1\n1", 2),
+    ("2\n4", 6),
+    ("2\n9", 11),
+    ("5\n10", 15),
+    ("5\n7", 12),
+    ("5\n20", 25),
+])
+def test_add_newline_string(string_calculator, str, expected):
+    """
+        Test case for newline custom delimeter.
+    """
+    total = string_calculator.Add(str)
+    assert isinstance(
+        total, (int, float)), f'Return value of the Add function should be integer or float'
+    assert total == expected, f'Total value for {str} should be {expected} but got {total}'
+
+
+@pytest.mark.parametrize("str,expected", [
     ("//[*]\n1*1", 2),
     ("//[,]\n2,4", 6),
     ("//[|]\n2|9", 11),
@@ -135,7 +153,7 @@ def test_add_float_string(string_calculator, str, expected):
     ("//[|]\n5|7", 12),
     ("//[*]\n5*20", 25),
 ])
-def test_add_newline_string(string_calculator, str, expected):
+def test_add_custom_delimeter_string(string_calculator, str, expected):
     """
         Test case for checking custom delimeter.
     """
@@ -171,7 +189,7 @@ def test_add_multiple_negative_string(string_calculator, str, expected):
         string_calculator.Add(str)
 
 
-def test_called_count(string_calculator):
+def test_get_called_count(string_calculator):
     """
         Test functionality to check the count of the add functionality.
     """
@@ -210,7 +228,22 @@ def test_ignore_greater_than_1000_string(string_calculator, str, expected):
     ("//[,,]\n2,,4444", 2),
     ("//[||]\n2||9999", 2),
 ])
-def test_ignore_greater_than_1000_string(string_calculator, str, expected):
+def test_add_multi_string_delimeter(string_calculator, str, expected):
+    """
+        Test functionality to check for multi delimeter splitting.
+    """
+    total = string_calculator.Add(str)
+    assert isinstance(
+        total, (int, float)), f'Return value of the Add function should be integer or float'
+    assert total == expected, f'Total value for {str} should be {expected} but got {total}'
+
+
+@pytest.mark.parametrize("str,expected", [
+    ("//[*][|]\n1*1001|24", 25),
+    ("//[,][$]\n2,4444$20", 22),
+    ("//[|][)]\n2|9999)60", 62),
+])
+def test_add_multi_delimeter_string(string_calculator, str, expected):
     """
         Test functionality to check for multi delimeter splitting.
     """
@@ -225,7 +258,7 @@ def test_ignore_greater_than_1000_string(string_calculator, str, expected):
     ("//[,,][\\]\n2,,4444\\20", 22),
     ("//[||][()]\n2||9999()60", 62),
 ])
-def test_ignore_greater_than_1000_string(string_calculator, str, expected):
+def test_add_multi_delimeter_multi_string(string_calculator, str, expected):
     """
         Test functionality to check for multi delimeter splitting.
     """
