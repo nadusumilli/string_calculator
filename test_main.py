@@ -152,7 +152,7 @@ def test_add_newline_string(string_calculator, str, expected):
 ])
 def test_add_negative_string(string_calculator, str, expected):
     """
-        Creates a fresh instance of the String Calculator before each test.
+        Testing for single negative number.
     """
     with pytest.raises(NegativeNumberException, match=f"negatives not allowed: {expected}"):
         string_calculator.Add(str)
@@ -165,13 +165,16 @@ def test_add_negative_string(string_calculator, str, expected):
 ])
 def test_add_multiple_negative_string(string_calculator, str, expected):
     """
-        Creates a fresh instance of the String Calculator before each test.
+        Testing for multiple negative numbers.
     """
     with pytest.raises(NegativeNumberException, match=f"negatives not allowed: {expected}"):
         string_calculator.Add(str)
 
 
 def test_called_count(string_calculator):
+    """
+        Test functionality to check the count of the add functionality.
+    """
     count = 0
     string_calculator.Add("2,4")
     count += 1
@@ -194,7 +197,7 @@ def test_called_count(string_calculator):
 ])
 def test_ignore_greater_than_1000_string(string_calculator, str, expected):
     """
-        Creates a fresh instance of the String Calculator before each test.
+        Test functionality to check that numbers greater than 1000 are removed from the sum.
     """
     total = string_calculator.Add(str)
     assert isinstance(

@@ -32,6 +32,10 @@ class StringCalculator:
 
                 # Split the the string with regex and get all operands
                 operands = re.split(self.delimeter, numbers)
+
+                # remove numbers greater than 1000
+                operands = [x for x in operands if int(x) <= 1000]
+
                 # validate the numbers
                 negativeNumbers = [x for x in operands if int(x) < 0]
                 if len(negativeNumbers) > 0:
