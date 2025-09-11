@@ -81,6 +81,4 @@ class StringCalculator:
         # If it is empty string or none return 0.
         numbers = self._to_number(operands)
 
-        print("total: ", numbers)
-
         return sum(numbers)
