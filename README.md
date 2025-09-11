@@ -21,4 +21,4 @@
 - I am assuming that the headers are always valid for multi delimeter tests.
 - New lines will not be used as a custom delimeter
 - default delimeters are `,` and `\n` so they run without the custom delimeter syntax.
-- Coverage is tested and at 100% so no tests were added for `_to_number` function
+- Coverage is tested and at 100% so minimal tests were added for `_to_number` function

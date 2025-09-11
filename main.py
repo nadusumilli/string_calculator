@@ -4,7 +4,7 @@ from exceptions import InvalidValueException, NegativeNumberException
 
 class StringCalculator:
     """
-        String Calculator, performs mathematical calculations on strings.
+        String Calculator, performs mathematical calculation add on strings.
     """
 
     def __init__(self):
@@ -54,13 +54,14 @@ class StringCalculator:
                 result.extend([float(x) if "." in x else int(x)
                               for x in operands])
             else:
+                # if there is a single number handle it here.
                 result.append(float(operands[0])
                               if "." in operands[0] else int(operands[0]))
 
             # return the result numbers list.
             return result
         except ValueError:
-            # If there is an error return the custom error message.
+            # If there is a value error return the custom error message.
             raise InvalidValueException(
                 "The value of the operands have to be numbers.")
 
@@ -72,7 +73,7 @@ class StringCalculator:
         # If its not a string raise value error.
         if not isinstance(operands, str):
             raise InvalidValueException(
-                "The operands have to be numbers separate by comma.")
+                "The operands can only be a string of numbers separated by a delimeter")
 
         # If it is empty string or none return 0.
         if not operands:

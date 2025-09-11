@@ -20,7 +20,7 @@ def test_add_invalid_type(string_calculator, str):
     """
         Checks the validity of the opperands to see if an error is raised
     """
-    with pytest.raises(InvalidValueException, match="The operands have to be numbers separate by comma."):
+    with pytest.raises(InvalidValueException, match="The operands can only be a string of numbers separated by a delimeter"):
         string_calculator.Add(str)
 
 
@@ -266,3 +266,48 @@ def test_add_multi_delimeter_multi_string(string_calculator, str, expected):
     assert isinstance(
         total, (int, float)), f'Return value of the Add function should be integer or float'
     assert total == expected, f'Total value for {str} should be {expected} but got {total}'
+
+
+@pytest.mark.parametrize("str,expected", [
+    ("//[**][||]\n1**1001||24||3", [1, 24, 3]),
+    ("//[,,][\\]\n2,,4444\\20\\3", [2, 20, 3]),
+    ("//[||][()]\n2||9999()60()3", [2, 60, 3]),
+])
+def test_to_number_with_delimeter(string_calculator, str, expected):
+    """
+        Test functionality to check for multi delimeter multi string splitting.
+    """
+    total = string_calculator._to_number(str)
+    assert isinstance(
+        total, (list,)), f'Returns a list of numbers'
+    assert total == expected, f'List for {str} should be {expected} but got {total}'
+
+
+@pytest.mark.parametrize("str,expected", [
+    ("1,2", [1, 2]),
+    ("2,1", [2, 1]),
+    ("10,8", [10, 8]),
+])
+def test_to_number_without_delimeter(string_calculator, str, expected):
+    """
+        Test functionality to check for multi delimeter multi string splitting.
+    """
+    total = string_calculator._to_number(str)
+    assert isinstance(
+        total, (list,)), f'Returns a list of numbers'
+    assert total == expected, f'List for {str} should be {expected} but got {total}'
+
+
+@pytest.mark.parametrize("str,expected", [
+    ("1", [1]),
+    ("2", [2]),
+    ("10", [10]),
+])
+def test_to_number_single_digit(string_calculator, str, expected):
+    """
+        Test functionality to check for multi delimeter multi string splitting.
+    """
+    total = string_calculator._to_number(str)
+    assert isinstance(
+        total, (list,)), f'Returns a list of numbers'
+    assert total == expected, f'List for {str} should be {expected} but got {total}'
