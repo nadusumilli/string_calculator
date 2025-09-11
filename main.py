@@ -1,3 +1,5 @@
+import re
+
 
 class StringCalculator:
     """
@@ -5,21 +7,42 @@ class StringCalculator:
     """
 
     def __init__(self):
-        self.delimeter = "\n"
+        self.delimeter = ",|\n"
 
     def _to_number(self, operands):
         result = []
         try:
+            if operands.startswith("//"):
+                # If there is a delimeter to pull, split and pull to split by numbers.
+                header, numbers = operands.split("\n")
+                delimeters = re.findall(r"\[(.*)?\]", header)
+                delimeters.extend(self.delimeter.split("|"))
+
+                # Ensure that the delimeters for splitting are added with a regex.
+                # The regex is in the form of `<delimeter>|<delimeter>`.
+                self.delimeter = "|".join(map(re.escape, delimeters))
+
+                # Split the the string with regex and get all operands
+                operands = re.split(self.delimeter, numbers)
+            else:
+                # If there is no delimeter in the string, pull defaults and apply.
+                self.delimeter = "|".join(map(re.escape, self.delimeter))
+                operands = re.split(self.delimeter, operands)
+
+            # Perform the conversions and return the numbers list.
             if isinstance(operands, list):
                 result.extend([float(x) if "." in x else int(x)
                               for x in operands])
             else:
                 result.append(float(operands)
                               if "." in operands else int(operands))
+
+            # return the result numbers list.
+            return result
         except ValueError:
+            # If there is an error return the custom error message.
             raise ValueError(
                 "The value of the operands have to be numbers.")
-        return result
 
     def Add(self, operands):
         """
@@ -36,10 +59,8 @@ class StringCalculator:
             return 0
 
         # If it is empty string or none return 0.
-        if "," not in operands:
-            result = self._to_number(operands)
-            return result[0]
+        numbers = self._to_number(operands)
 
-        numbers = self._to_number(operands.split(self.delimeter))
+        print("total: ", numbers)
 
         return sum(numbers)
