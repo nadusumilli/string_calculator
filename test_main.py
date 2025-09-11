@@ -203,3 +203,33 @@ def test_ignore_greater_than_1000_string(string_calculator, str, expected):
     assert isinstance(
         total, (int, float)), f'Return value of the Add function should be integer or float'
     assert total == expected, f'Total value for {str} should be {expected} but got {total}'
+
+
+@pytest.mark.parametrize("str,expected", [
+    ("//[**]\n1**1001", 1),
+    ("//[,,]\n2,,4444", 2),
+    ("//[||]\n2||9999", 2),
+])
+def test_ignore_greater_than_1000_string(string_calculator, str, expected):
+    """
+        Test functionality to check for multi delimeter splitting.
+    """
+    total = string_calculator.Add(str)
+    assert isinstance(
+        total, (int, float)), f'Return value of the Add function should be integer or float'
+    assert total == expected, f'Total value for {str} should be {expected} but got {total}'
+
+
+@pytest.mark.parametrize("str,expected", [
+    ("//[**][||]\n1**1001||24", 25),
+    ("//[,,][\\]\n2,,4444\\20", 22),
+    ("//[||][()]\n2||9999()60", 62),
+])
+def test_ignore_greater_than_1000_string(string_calculator, str, expected):
+    """
+        Test functionality to check for multi delimeter splitting.
+    """
+    total = string_calculator.Add(str)
+    assert isinstance(
+        total, (int, float)), f'Return value of the Add function should be integer or float'
+    assert total == expected, f'Total value for {str} should be {expected} but got {total}'
