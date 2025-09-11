@@ -1,4 +1,5 @@
 import re
+from exceptions import InvalidValueException, NegativeNumberException
 
 
 class StringCalculator:
@@ -26,6 +27,11 @@ class StringCalculator:
 
                 # Split the the string with regex and get all operands
                 operands = re.split(self.delimeter, numbers)
+                # validate the numbers
+                negativeNumbers = [x for x in operands if int(x) < 0]
+                if len(negativeNumbers) > 0:
+                    raise NegativeNumberException(
+                        f"negatives not allowed {",".join(negativeNumbers)}")
             else:
                 # If there is no delimeter in the string, pull defaults and apply.
                 self.delimeter = "|".join(map(re.escape, self.delimeter))
@@ -43,7 +49,7 @@ class StringCalculator:
             return result
         except ValueError:
             # If there is an error return the custom error message.
-            raise ValueError(
+            raise InvalidValueException(
                 "The value of the operands have to be numbers.")
 
     def Add(self, operands):
@@ -53,7 +59,7 @@ class StringCalculator:
         """
         # If its not a string raise value error.
         if not isinstance(operands, str):
-            raise ValueError(
+            raise InvalidValueException(
                 "The operands have to be numbers separate by comma.")
 
         # If it is empty string or none return 0.

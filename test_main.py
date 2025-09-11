@@ -1,5 +1,6 @@
 import pytest
 from main import StringCalculator
+from main import NegativeNumberException, InvalidValueException
 
 
 @pytest.fixture
@@ -19,7 +20,7 @@ def test_add_invalid_type(string_calculator, str):
     """
         Checks the validity of the opperands to see if an error is raised
     """
-    with pytest.raises(ValueError, match="The operands have to be numbers separate by comma."):
+    with pytest.raises(InvalidValueException, match="The operands have to be numbers separate by comma."):
         string_calculator.Add(str)
 
 
@@ -33,7 +34,7 @@ def test_add_invalid_string(string_calculator, str):
     """
         Checks the validity of the string arguments of the function.
     """
-    with pytest.raises(ValueError, match="The value of the operands have to be numbers."):
+    with pytest.raises(InvalidValueException, match="The value of the operands have to be numbers."):
         string_calculator.Add(str)
 
 
@@ -145,26 +146,26 @@ def test_add_newline_string(string_calculator, str, expected):
 
 
 @pytest.mark.parametrize("str,expected", [
-    ("//[*]\n-1*1", 2),
-    ("//[,]\n2,-4", 6),
-    ("//[|]\n-2|9", 11),
+    ("//[*]\n-1*1", "-1"),
+    ("//[,]\n2,-4", "-4"),
+    ("//[|]\n-2|9", "-2"),
 ])
 def test_add_negative_string(string_calculator, str, expected):
     """
         Creates a fresh instance of the String Calculator before each test.
     """
-    with pytest.raises(ValueError, match="negatives not allowed"):
+    with pytest.raises(NegativeNumberException, match=f"negatives not allowed {expected}"):
         string_calculator.Add(str)
 
 
 @pytest.mark.parametrize("str,expected", [
-    ("//[*]\n-1*1", 2),
-    ("//[,]\n2,-4", 6),
-    ("//[|]\n-2|9", 11),
+    ("//[*]\n-1*-1*-10", "-1,-1,-10"),
+    ("//[,]\n-2,-4,-40", "-2,-4,-40"),
+    ("//[|]\n-2|-9|-90", "-2,-9,-90"),
 ])
 def test_add_multiple_negative_string(string_calculator, str, expected):
     """
         Creates a fresh instance of the String Calculator before each test.
     """
-    with pytest.raises(ValueError, match="negatives not allowed"):
+    with pytest.raises(NegativeNumberException, match=f"negatives not allowed {expected}"):
         string_calculator.Add(str)
