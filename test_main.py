@@ -53,8 +53,7 @@ def test_add_empty_strings(string_calculator, str, expected):
     ("2", 2),
     ("20", 20),
     ("50.00", 50),
-    ("-50.00", -50),
-    ("-50", -50),
+    ("50", 50),
     ("100", 100),
     ("100000000", 100000000),
 ])
@@ -75,11 +74,11 @@ def test_add_one_string(string_calculator, str, expected):
     ("50,5", 55),
     ("100,2", 102),
     ("100000000,25", 100000025),
-    ("-1,1", 0),
-    ("-1,10", 9),
-    ("-5,10", 5),
-    ("-5,-7", -12),
-    ("-5,-20", -25),
+    ("1,1", 2),
+    ("1,10", 11),
+    ("5,10", 15),
+    ("5,7", 12),
+    ("5,20", 25),
 ])
 def test_add_two_string(string_calculator, str, expected):
     """
@@ -94,12 +93,12 @@ def test_add_two_string(string_calculator, str, expected):
 @pytest.mark.parametrize("str,expected", [
     ("1,1,1", 3),
     ("2,4,5", 11),
-    ("2,9,-1", 10),
+    ("2,9,1", 12),
     ("50,5,6,3,7,5,8", 84),
-    ("100,2,1,2,-100", 5),
-    ("100000000,25,-999999", 99000026),
-    ("-1,1,567", 567),
-    ("-1,10,100", 109),
+    ("100,2,1,2,100", 205),
+    ("100000000,25", 100000025),
+    ("1,1,567", 569),
+    ("1,10,100", 111),
 ])
 def test_add_dynamic_number_string(string_calculator, str, expected):
     """
@@ -112,43 +111,18 @@ def test_add_dynamic_number_string(string_calculator, str, expected):
 
 
 @pytest.mark.parametrize("str,expected", [
-    ("1,1", 2),
-    ("2,4", 6),
-    ("2,9", 11),
-    ("50.00,5", 55),
-    ("100,2", 102),
-    ("100000000,25", 100000025),
-    ("-1,1", 0),
-    ("-1,10", 9),
-    ("-5,10", 5),
-    ("-5,-7", -12),
-    ("-5,-20", -25),
+    ("1.0,1.0", 2.0),
+    ("2.0,4.0", 6.0),
+    ("2.0,9.0", 11.0),
+    ("50.00,5.0", 55.0),
 ])
 def test_add_float_string(string_calculator, str, expected):
     """
-        Creates a fresh instance of the String Calculator before each test.
+        Test case to check float values.
     """
     total = string_calculator.Add(str)
     assert isinstance(
-        total, (int, float)), f'Return value of the Add function should be integer or float'
-    assert total == expected, f'Total value for {str} should be {expected} but got {total}'
-
-
-@pytest.mark.parametrize("str,expected", [
-    ("//[*]\n1*1", 2),
-    ("//[*]\n2*4", 6),
-    ("//[*]\n2*9", 11),
-    ("//[*]\n-5*10", 5),
-    ("//[*]\n-5*-7", -12),
-    ("//[*]\n-5*-20", -25),
-])
-def test_add_newline_string(string_calculator, str, expected):
-    """
-        Creates a fresh instance of the String Calculator before each test.
-    """
-    total = string_calculator.Add(str)
-    assert isinstance(
-        total, (int, float)), f'Return value of the Add function should be integer or float'
+        total, (float)), f'Return value of the Add function should be integer or float'
     assert total == expected, f'Total value for {str} should be {expected} but got {total}'
 
 
@@ -156,12 +130,41 @@ def test_add_newline_string(string_calculator, str, expected):
     ("//[*]\n1*1", 2),
     ("//[,]\n2,4", 6),
     ("//[|]\n2|9", 11),
+    ("//[,]\n5,10", 15),
+    ("//[|]\n5|7", 12),
+    ("//[*]\n5*20", 25),
 ])
-def test_add_different_delimeter_string(string_calculator, str, expected):
+def test_add_newline_string(string_calculator, str, expected):
     """
-        Creates a fresh instance of the String Calculator before each test.
+        Test case for checking custom delimeter.
     """
     total = string_calculator.Add(str)
     assert isinstance(
         total, (int, float)), f'Return value of the Add function should be integer or float'
     assert total == expected, f'Total value for {str} should be {expected} but got {total}'
+
+
+@pytest.mark.parametrize("str,expected", [
+    ("//[*]\n-1*1", 2),
+    ("//[,]\n2,-4", 6),
+    ("//[|]\n-2|9", 11),
+])
+def test_add_negative_string(string_calculator, str, expected):
+    """
+        Creates a fresh instance of the String Calculator before each test.
+    """
+    with pytest.raises(ValueError, match="negatives not allowed"):
+        string_calculator.Add(str)
+
+
+@pytest.mark.parametrize("str,expected", [
+    ("//[*]\n-1*1", 2),
+    ("//[,]\n2,-4", 6),
+    ("//[|]\n-2|9", 11),
+])
+def test_add_multiple_negative_string(string_calculator, str, expected):
+    """
+        Creates a fresh instance of the String Calculator before each test.
+    """
+    with pytest.raises(ValueError, match="negatives not allowed"):
+        string_calculator.Add(str)

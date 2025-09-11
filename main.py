@@ -13,8 +13,10 @@ class StringCalculator:
         result = []
         try:
             if operands.startswith("//"):
-                # If there is a delimeter to pull, split and pull to split by numbers.
+                # Get the header with delimeter and numbers separately.
                 header, numbers = operands.split("\n")
+
+                # If there is a delimeter to pull, split and pull to split by numbers.
                 delimeters = re.findall(r"\[(.*)?\]", header)
                 delimeters.extend(self.delimeter.split("|"))
 
