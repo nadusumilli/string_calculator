@@ -65,7 +65,7 @@ def test_add_one_string(string_calculator, str, expected):
     total = string_calculator.Add(str)
     assert isinstance(
         total, (int, float)), f'Return value of the Add function should be integer or float'
-    assert total == expected, f'Total value for {str} should be {expected}'
+    assert total == expected, f'Total value for {str} should be {expected} but got {total}'
 
 
 @pytest.mark.parametrize("str,expected", [
@@ -88,7 +88,7 @@ def test_add_two_string(string_calculator, str, expected):
     total = string_calculator.Add(str)
     assert isinstance(
         total, (int, float)), f'Return value of the Add function should be integer or float'
-    assert total == expected, f'Total value for {str} should be {expected}'
+    assert total == expected, f'Total value for {str} should be {expected} but got {total}'
 
 
 @pytest.mark.parametrize("str,expected", [
@@ -108,7 +108,7 @@ def test_add_dynamic_number_string(string_calculator, str, expected):
     total = string_calculator.Add(str)
     assert isinstance(
         total, (int, float)), f'Return value of the Add function should be integer or float'
-    assert total == expected, f'Total value for {str} should be {expected}'
+    assert total == expected, f'Total value for {str} should be {expected} but got {total}'
 
 
 @pytest.mark.parametrize("str,expected", [
@@ -131,16 +131,16 @@ def test_add_float_string(string_calculator, str, expected):
     total = string_calculator.Add(str)
     assert isinstance(
         total, (int, float)), f'Return value of the Add function should be integer or float'
-    assert total == expected, f'Total value for {str} should be {expected}'
+    assert total == expected, f'Total value for {str} should be {expected} but got {total}'
 
 
 @pytest.mark.parametrize("str,expected", [
-    ("1\n1", 2),
-    ("2\n4", 6),
-    ("2\n9", 11),
-    ("-5\n10", 5),
-    ("-5\n-7", -12),
-    ("-5\n-20", -25),
+    ("//[*]\n1*1", 2),
+    ("//[*]\n2*4", 6),
+    ("//[*]\n2*9", 11),
+    ("//[*]\n-5*10", 5),
+    ("//[*]\n-5*-7", -12),
+    ("//[*]\n-5*-20", -25),
 ])
 def test_add_newline_string(string_calculator, str, expected):
     """
@@ -149,7 +149,7 @@ def test_add_newline_string(string_calculator, str, expected):
     total = string_calculator.Add(str)
     assert isinstance(
         total, (int, float)), f'Return value of the Add function should be integer or float'
-    assert total == expected, f'Total value for {str} should be {expected}'
+    assert total == expected, f'Total value for {str} should be {expected} but got {total}'
 
 
 @pytest.mark.parametrize("str,expected", [
@@ -164,4 +164,4 @@ def test_add_different_delimeter_string(string_calculator, str, expected):
     total = string_calculator.Add(str)
     assert isinstance(
         total, (int, float)), f'Return value of the Add function should be integer or float'
-    assert total == expected, f'Total value for {str} should be {expected}'
+    assert total == expected, f'Total value for {str} should be {expected} but got {total}'
