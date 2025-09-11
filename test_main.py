@@ -1,6 +1,6 @@
 import pytest
 from main import StringCalculator
-from main import NegativeNumberException, InvalidValueException
+from exceptions import NegativeNumberException, InvalidValueException
 
 
 @pytest.fixture
@@ -53,7 +53,7 @@ def test_add_empty_strings(string_calculator, str, expected):
     ("1", 1),
     ("2", 2),
     ("20", 20),
-    ("50.00", 50),
+    ("50.0", 50),
     ("50", 50),
     ("100", 100),
     ("234", 234),
@@ -245,7 +245,7 @@ def test_add_multi_string_delimeter(string_calculator, str, expected):
 ])
 def test_add_multi_delimeter_string(string_calculator, str, expected):
     """
-        Test functionality to check for multi delimeter splitting.
+        Test functionality to check for multi delimeter single string splitting.
     """
     total = string_calculator.Add(str)
     assert isinstance(
@@ -260,7 +260,7 @@ def test_add_multi_delimeter_string(string_calculator, str, expected):
 ])
 def test_add_multi_delimeter_multi_string(string_calculator, str, expected):
     """
-        Test functionality to check for multi delimeter splitting.
+        Test functionality to check for multi delimeter multi string splitting.
     """
     total = string_calculator.Add(str)
     assert isinstance(

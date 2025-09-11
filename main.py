@@ -50,12 +50,12 @@ class StringCalculator:
                 operands = re.split(self.delimeter, operands)
 
             # Perform the conversions and return the numbers list.
-            if isinstance(operands, list):
+            if isinstance(operands, list) and len(operands) > 1:
                 result.extend([float(x) if "." in x else int(x)
                               for x in operands])
             else:
-                result.append(float(operands)
-                              if "." in operands else int(operands))
+                result.append(float(operands[0])
+                              if "." in operands[0] else int(operands[0]))
 
             # return the result numbers list.
             return result
