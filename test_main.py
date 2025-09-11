@@ -56,7 +56,7 @@ def test_add_empty_strings(string_calculator, str, expected):
     ("50.00", 50),
     ("50", 50),
     ("100", 100),
-    ("100000000", 100000000),
+    ("234", 234),
 ])
 def test_add_one_string(string_calculator, str, expected):
     """
@@ -74,7 +74,7 @@ def test_add_one_string(string_calculator, str, expected):
     ("2,9", 11),
     ("50,5", 55),
     ("100,2", 102),
-    ("100000000,25", 100000025),
+    ("123,25", 148),
     ("1,1", 2),
     ("1,10", 11),
     ("5,10", 15),
@@ -96,8 +96,8 @@ def test_add_two_string(string_calculator, str, expected):
     ("2,4,5", 11),
     ("2,9,1", 12),
     ("50,5,6,3,7,5,8", 84),
-    ("100,2,1,2,100", 205),
-    ("100000000,25", 100000025),
+    ("15,2,1,2,10", 30),
+    ("10,25", 35),
     ("1,1,567", 569),
     ("1,10,100", 111),
 ])
@@ -185,3 +185,18 @@ def test_called_count(string_calculator):
     string_calculator.Add("2,4")
     count += 1
     assert string_calculator.GetCalledCount() == count
+
+
+@pytest.mark.parametrize("str,expected", [
+    ("//[*]\n1*1001", 1),
+    ("//[,]\n2,4444", 2),
+    ("//[|]\n2|9999", 2),
+])
+def test_ignore_greater_than_1000_string(string_calculator, str, expected):
+    """
+        Creates a fresh instance of the String Calculator before each test.
+    """
+    total = string_calculator.Add(str)
+    assert isinstance(
+        total, (int, float)), f'Return value of the Add function should be integer or float'
+    assert total == expected, f'Total value for {str} should be {expected} but got {total}'
