@@ -22,9 +22,12 @@ class StringCalculator:
                 # Get the header with delimeter and numbers separately.
                 header, numbers = operands.split("\n")
 
-                # If there is a delimeter to pull, split and pull to split by numbers.
-                delimeters = re.findall(r"\[(.*)?\]", header)
+                # This regex finds all delimiters enclosed in square brackets,
+                # including multi-character delimiters.
+                delimeters = re.findall(r"\[(.*?)\]", header)
+                print("delimeter: ", delimeters)
                 delimeters.extend(self.delimeter.split("|"))
+                print("delimeter: ", delimeters)
 
                 # Ensure that the delimeters for splitting are added with a regex.
                 # The regex is in the form of `<delimeter>|<delimeter>`.
